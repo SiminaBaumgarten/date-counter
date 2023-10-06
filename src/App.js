@@ -13,33 +13,39 @@ function Counter() {
   const [step, setSteps] = useState(1);
   const [count, setCount] = useState(0);
 
+  function handleReset() {
+    setSteps(1);
+    setCount(0);
+  }
+
   function handleMinus() {
     setCount((d) => d - step);
   }
-
   function handlePlus() {
     setCount((d) => d + step);
-  }
-
-  function handleStepsMinus() {
-    setSteps((s) => s - 1);
-  }
-  function handleStepsPlus() {
-    setSteps((s) => s + 1);
   }
   const now = new Date();
   now.setDate(now.getDate() + count);
 
   return (
-    <>
+    <div>
       <div>
-        <button onClick={handleStepsMinus}>-</button>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={step}
+          onChange={(e) => setSteps(+e.target.value)}
+        />
         <span> Step: {step} </span>
-        <button onClick={handleStepsPlus}>+</button>
       </div>
       <div className="padding">
         <button onClick={handleMinus}>-</button>
-        <span> Count: {count} </span>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
         <button onClick={handlePlus}>+</button>
         <p>
           <span>
@@ -52,6 +58,11 @@ function Counter() {
           <span>{now.toDateString()}</span>
         </p>
       </div>
-    </>
+      {count !== 0 || step !== 1 ? (
+        <div>
+          <button onClick={handleReset}>Reset</button>
+        </div>
+      ) : null}
+    </div>
   );
 }
